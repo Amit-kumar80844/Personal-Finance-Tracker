@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Introduction Page</title>
+	<style>
+		body
+		{
+			background-image: url("{{ url_for('static', filename='Back.jpg') }}");
+            background-size: cover;
+			margin: 0px;
+			padding: 0px;
+			font-family: 'Arial';
+		}
+		.b1
+		{
+			background-color: rgba(0, 0, 0, 0.5);
+			height: 50px;
+			width: 120px;
+			border-radius: 5px;
+			font-size: 20px;
+			position: absolute;
+			top: 80%;
+			left: 25%;
+			transition: background-color 2s ease-out;
+		}
+		.b2
+		{
+			background-color: rgba(0, 0, 0, 0.5);
+			height: 50px;
+			width: 120px;
+			border-radius: 5px;
+			font-size: 20px;
+			position: absolute;
+			top: 80%;
+			left:65%;
+			transition: background-color 2s ease-out;
+		}
+		.b1:hover
+		{
+			background-color:  #708090;
+		}
+		.b2:hover
+		{
+			background-color:  #708090;
+		}
+		.Conatainer
+		{
+			height: 100vh;
+			width: 100vh;
+		}
+		.p1
+		{
+			background-color: rgba(0, 0, 0, 0.6);
+			border-radius: 15px;
+			height: 350px;
+         width: 550px;
+         position: absolute;
+         left: 10%;
+         top: 150px;
+         box-shadow: 0px 0px 10px black;
+         text-align: center;
+         transition: background-color 2s ease-out;
+
+		}
+		.p1:hover
+		{
+          background-color: darkred;
+		}
+		.p2:hover
+		{
+          background-color: #006400;
+		}
+		.p2
+		{
+			background-color: rgba(0, 0, 0, 0.6);
+			border-radius: 15px;
+			height: 350px;
+         width: 550px;
+         position: absolute;
+         left:55%;
+         top: 152px;
+         box-shadow: 0px 0px 10px black;
+         text-align: center;
+         transition: background-color 2s ease-out;
+		}		
+		.glow
+		{  
+			position: absolute;
+         color: white;
+         font-size: 35px;
+			width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			animation: typing 3s steps(40);
+		} 
+		@keyframes cursor{
+			50% {border-color: transparent;}
+		}
+		@keyframes typing{
+			from {width: 0}
+		}
+		.Signup
+		{
+			height: 50px;
+			width: 100px;
+			border: 0px;
+			background-color: white;
+		}
+
+	</style>
+</head>
+<body>
+   <div class="Container">
+      	<div style="width:1000px; position: absolute; left: 450px;"><h1 class="glow">Project Title : Personal Finance Tracker</h1></div>
+      <div class="p1">	
+      	<h1 style="color:skyblue; text-shadow: 0px 0px 5px black;position: absolute; top: 5%; right: 40%;">Overview:</h1>
+      	<p style="color:white; font-size: 20px;position: absolute; top: 30%;">
+         In today's complex financial landscape, managing personal finances effectively is essential for financial stability and growth. The Personal Finance Tracker is a comprehensive database management system (DBMS) project aimed at helping users monitor and control their financial activities. This system offers a structured approach to tracking income, expenses, savings, and investments, enabling users to gain better control over their finances.</p>
+      </div>
+      <div class="p2">
+         <h1 style="color:skyblue; text-shadow: 0px 0px 5px black; position: absolute; top: 5%; right: 40%;">Objective:</h1>
+         <p style="color:white; font-size:20px; position:absolute; top:100px;">The objective of the Personal Finance Tracker is to empower users by providing a tool that simplifies financial management. Through this system, users can track their financial transactions, categorize their spending, set budgets, and generate insightful reports. The system is designed to help users make informed decisions, ultimately leading to better financial planning.</p>
+      </div>
+      <button class="b1"><a href="{{ url_for('signup') }}">Sign Up</a></button>
+      <button class="b2"><a href="{{ url_for('login') }}">Log In</a></button>
+   </div>
+</body>
+</html>

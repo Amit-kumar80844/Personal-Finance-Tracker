@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Personal Finance Tracker</title>
+    <style>
+
+        body {
+            background-color:#77f69d;
+            margin: 0px;
+            padding: 0px;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin: 1%;
+            padding-bottom: 2%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .bal {
+            background-color: #9e7ede;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 2px 2px 10px rgb(12, 36, 174);
+            padding: 20px;
+            margin: 0 auto;
+            width: 90%;
+            max-width:700px;
+        }
+        .bal h1 {
+            text-align: center;
+        }
+
+        .balance-info {
+            display: flex;
+            justify-content:space-evenly;
+            margin-top: 10px;
+        }
+
+        .vertical {
+            border-left: 2px solid black;
+            height: 80px;
+        }
+
+        .function {
+            box-shadow: 0px 0px 10px black;
+            padding: 20px;
+            margin: 30px auto;
+            width: 90%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        th {
+            background-color: greenyellow;
+        }
+    
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .plus-sign {
+            font-size: 24px;
+            color: #920046;
+            text-decoration: none;
+            margin-top: 20px;
+            display: block;
+            text-align: right;
+        }
+
+        .plus-sign:hover {
+            color: #d90e0e;
+        }
+
+        .table_add {
+            margin-top: 40px;
+        }
+
+        .banks {
+            
+            width: 80%;
+            margin: 20px auto;
+            background-color: #1cb573;
+            padding: 20px;
+            border: 1px solid #ccc;
+            
+        }
+       
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        form h3 {
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .bal, .function, .banks {
+                width: 100%;
+            }
+
+            .balance-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .table_add form {
+                width: 100%;
+                text-align: center;
+            }
+
+            .form-container {
+                width: 100%;
+            }
+        }
+        .pro-button {
+    padding: 15px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.pro-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 6px 12px rgba(0, 123, 255, 0.4);
+}
+
+.pro-button:active {
+    background-color: #004085;
+    box-shadow: 0px 2px 4px rgba(0, 123, 255, 0.2);
+    transform: translateY(2px);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+           
+         <img src="{{ url_for('static', filename='left1.png') }}" alt="Left Image" style="height: 100px;">
+         <form action="{{ url_for('logout') }}" method="POST">
+            <button type="submit" class="pro-button">Log out</button>
+        </form>
+         <img src="{{ url_for('static', filename='right1.png') }}" alt="Right Image" style="height: 100px;">
+        </div>
+        <div class="bal">
+            <h1>Balance: ₹ {{ total_balance }}</h1>
+            <a href="{{ url_for('add_bank') }}" class="plus-sign">+</a>
+            <div class="balance-info">
+                <h3>Total Income: ₹ {{ total_income }}</h3>
+                <div class="vertical"></div>
+                <h3>Total Expenses: ₹ {{ total_expense }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="function">
+        <h2>Transaction History</h2>
+        <table>
+            <tr>
+                <th>S.no.</th>
+                <th>Transaction ID</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date and time</th>
+                <th>Description</th>
+                <th>Delete</th>
+            </tr>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.s_no }}</td>
+                <td>{{ transaction.t_id }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.description }}</td>
+                <td><a href="{{ url_for('delete_transaction', t_id=transaction.t_id, transaction_type=transaction.type, acc_id=transaction.acc_id, amount=transaction.amount) }}">✖</a></td>
+            </tr>
+        {% endfor %}        
+</table>
+<div class="table_add">
+    <h2>Add New Transaction</h2>
+    <form action="/index" method="POST" class="form-container">
+        <h3>Bank:
+            <select name="bank_id">
+                {% for bank in bank_details %}
+                <option value="{{ bank.acc_id }}">{{ bank.acc_name }} (₹ {{ bank.balance }})</option>
+                {% endfor %}
+            </select>
+        </h3>
+        <h3>Entry Type:
+            <select name="type">
+                <option value="Expense">Expense</option>
+                <option value="Income">Income</option>
+            </select>
+        </h3>
+        <h3>Amount: <input type="text" name="amount" placeholder="0"></h3>
+        <h3>Description: <input type="text" name="description" placeholder="Description"></h3>
+        <button type="submit">Add</button>
+    </form>
+</div>
+    </div>
+    <div class="banks">
+        <h2>Your Banks</h2>
+       
+        <table>
+            <tr>
+                <th>Bank</th>
+                <th>Current Amount</th>
+            </tr>
+            {% for bank in bank_details %}
+            <tr>
+                <td>{{ bank.acc_name }}</td>
+                <td>₹ {{ bank.balance }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+   
+</body>
+</html>
